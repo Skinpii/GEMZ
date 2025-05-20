@@ -7,6 +7,7 @@ const popularSites = [
   {
     category: 'Movies & TV',
     sites: [
+      { name: 'MultiMovies', url: 'https://multimovies.media', icon: '🎞️' },
       { name: 'Soap2Night', url: 'https://soap2night.cc', icon: '🎬' },
       { name: 'WMovies', url: 'https://wmovies.xyz', icon: '🎥' },
       { name: 'Goojara', url: 'https://goojara.to', icon: '🍿' },
@@ -271,33 +272,43 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
   };
 
   // Helper: get all sites from Movies, Anime, Manga, minus excluded
-  const excludedSites = [
-    'hydrahd',
-    'cineby',
-    'popcorn movies',
-    'onion play',
-    'pressplay',
-    'moviesjoytv',
-    'the flixer tv',
-    'hdtoday',
-    'hurawatch',
-    'ridomovies',
-    'vidplay',
-    'watch32',
-    'flickermini',
-    'soap2night',
-    'wmovies',
-    'goojara',
-    'watch.ug'
+  // Only include the specified movie sites in the search result section
+  const allowedMovieSites = [
+    'multimovies.media',
+    'myflixerz.to',
+    'gomovies.sx',
+    'theflixertv.to',
+    'wmovies.xyz',
+    'soap2dayhdz.com',
+    'lookmovie2.to',
+    'fmovies.co',
+    'sflix.to',
+    'watch.ug',
+    'popcornmovies.to',
+    'onionplay.ch',
+    'pressplay.top',
+    'broflix.si',
+    '123moviesfree.net',
+    'hdtoday.cc',
+    'vidplay.org',
+    'vidplay.top',
+    'yesmovies.ag',
+    'watchseries.pe',
+    'soaper.top',
+    'watch32.sx'
   ];
   const getSearchableSites = () => {
     let allowedCategories = ['Movies & TV', 'Anime', 'Manga'];
     if (selectedType === 'anime') allowedCategories = ['Anime'];
     if (selectedType === 'movie') allowedCategories = ['Movies & TV'];
-    return popularSites.filter(cat =>
+    let sites = popularSites.filter(cat =>
       allowedCategories.includes(cat.category)
-    ).flatMap(cat => cat.sites.map(site => ({ ...site, category: cat.category })))
-      .filter(site => !excludedSites.some(ex => site.name.toLowerCase().includes(ex)));
+    ).flatMap(cat => cat.sites.map(site => ({ ...site, category: cat.category })));
+    if (selectedType === 'movie' || (searchQuery && selectedType !== 'anime' && selectedType !== 'manga')) {
+      // Only show the specified movie sites in the movie result section
+      sites = sites.filter(site => allowedMovieSites.some(domain => site.url.includes(domain)));
+    }
+    return sites;
   };
 
   // Helper: build search URL for each site
@@ -382,6 +393,11 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     if (site.url.includes('watch32.sx')) {
       // watch32.sx uses /search/{query}
       return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('multimovies.media')) {
+      // multimovies.media uses /?s={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/?s=${plusQuery}`;
     }
     // Default: Google site search
     return `https://www.google.com/search?q=site:${site.url}+${q}`;
