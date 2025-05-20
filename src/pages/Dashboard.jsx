@@ -11,7 +11,6 @@ const popularSites = [
       { name: 'WMovies', url: 'https://wmovies.xyz', icon: '🎥' },
       { name: 'Goojara', url: 'https://goojara.to', icon: '🍿' },
       { name: 'MyFlixerz', url: 'https://myflixerz.to', icon: '📺' },
-      { name: 'HydraHD', url: 'https://hydrahd.ac', icon: '🎞️' },
       { name: 'Cineby', url: 'https://cineby.app', icon: '🎬' },
       { name: 'Watch.ug', url: 'https://watch.ug', icon: '👁️' },
       { name: 'Popcorn Movies', url: 'https://popcornmovies.to', icon: '🍿' },
@@ -32,7 +31,7 @@ const popularSites = [
       { name: 'RidoMovies', url: 'https://ridomovies.tv', icon: '🎥' },
       { name: '123Movies', url: 'https://123moviesfree.net', icon: '🍿' },
       { name: 'HDToday.cc', url: 'https://hdtoday.cc', icon: '📽️' },
-      { name: 'VidPlay', url: 'https://vidplay.org', icon: '▶️' },
+      { name: 'VidPlay', url: 'https://vidplay.top', icon: '▶️' },
       { name: 'Putlocker', url: 'https://putlocker.pe', icon: '🔒' },
       { name: 'GoMovies TV', url: 'https://gomoviestv.to', icon: '📺' },
       { name: 'YesMovies', url: 'https://yesmovies.ag', icon: '✓' },
@@ -303,7 +302,10 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
 
   // Helper: build search URL for each site
   const getSiteSearchUrl = (site, query) => {
-    const q = encodeURIComponent(query);
+    // Replace spaces with hyphens for search URLs, and do not encode hyphens
+    const formattedQuery = query.trim().replace(/\s+/g, '-');
+    // Only encode characters except hyphens
+    const q = encodeURIComponent(formattedQuery).replace(/%2D/g, '-').replace(/%20/g, '-');
     // Custom search URL for specific sites
     if (site.url.includes('myflixerz.to')) {
       return `${site.url}/search/${q}`;
@@ -314,19 +316,73 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     if (site.url.includes('theflixertv.to')) {
       return `${site.url}/search/${q}`;
     }
+    if (site.url.includes('wmovies.xyz')) {
+      // wmovies.xyz uses /{query}/, but avoid double slashes
+      return `${site.url}/${q}/`;
+    }
     if (site.url.includes('soap2dayhdz.com')) {
-      // Example: https://soap2dayhdz.com/film/oblivion-2234/
-      // We'll use the first word as the slug, fallback to query if not possible
-      // This is a guess, as the real slug may require more logic or scraping
-      return `${site.url}/film/${q}`;
+      // soap2dayhdz.com uses /search/?q={query}
+      return `${site.url}/search/?q=${q}`;
     }
     if (site.url.includes('lookmovie2.to')) {
-      // Example: https://www.lookmovie2.to/movies/view/looper-2012
-      // We'll use the first word as the slug, fallback to query if not possible
       return `${site.url}/movies/view/${q}`;
     }
-    // Add more custom site search logic here if needed
-
+    if (site.url.includes('fmovies.co')) {
+      // fmovies.co uses /search/?q={query}
+      return `${site.url}/search/?q=${q}`;
+    }
+    if (site.url.includes('sflix.to')) {
+      // sflix.to uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('watch.ug')) {
+      // watch.ug uses /movie/{query}
+      return `${site.url}/movie/${q}`;
+    }
+    if (site.url.includes('popcornmovies.to')) {
+      // popcornmovies.to uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('onionplay.ch')) {
+      // onionplay.ch uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('pressplay.top')) {
+      // pressplay.top uses /movie/{query}
+      return `${site.url}/movie/${q}`;
+    }
+    if (site.url.includes('broflix.si')) {
+      // broflix.si uses /search?text={query}
+      return `${site.url}/search?text=${q}`;
+    }
+    if (site.url.includes('123moviesfree.net')) {
+      // 123moviesfree.net uses /search/?q={query}
+      return `${site.url}/search/?q=${q}`;
+    }
+    if (site.url.includes('hdtoday.cc')) {
+      // hdtoday.cc uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('vidplay.org') || site.url.includes('vidplay.top')) {
+      // vidplay uses /index.php?menu=search&query={query}
+      return `${site.url}/index.php?menu=search&query=${q}`;
+    }
+    if (site.url.includes('yesmovies.ag')) {
+      // yesmovies.ag uses /search.html?q={query}
+      return `${site.url}/search.html?q=${q}`;
+    }
+    if (site.url.includes('watchseries.pe')) {
+      // watchseries.pe uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('soaper.top')) {
+      // soaper.top uses /search.html?keyword={query}
+      return `${site.url}/search.html?keyword=${q}`;
+    }
+    if (site.url.includes('watch32.sx')) {
+      // watch32.sx uses /search/{query}
+      return `${site.url}/search/${q}`;
+    }
     // Default: Google site search
     return `https://www.google.com/search?q=site:${site.url}+${q}`;
   };
@@ -401,4 +457,3 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
 };
 
 export default Dashboard;
-
