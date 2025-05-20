@@ -1,0 +1,439 @@
+import React, { useContext, useRef, useState, useEffect } from 'react';
+import { UserContextData } from '../context/userContext';
+import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { randomizeCardAnimations } from '../utils/animationHelper';
+import { popularSites } from '../data/siteData';
+import './Dashboard.css';
+
+const Dashboard = () => {
+      { name: 'Anime Nexus', url: 'https://anime.nexus', icon: '🍥' },
+      { name: 'Hi Anime', url: 'https://hianime.to', icon: '🎌' },
+      { name: '9anime TV', url: 'https://9animetv.to', icon: '🐉' },
+      { name: 'Anitaku', url: 'https://anitaku.io', icon: '🏯' },
+      { name: 'AnimeKai', url: 'https://animekai.to', icon: '⛩️' },
+      { name: 'GoGoAnime', url: 'https://gogoanime.org.vc', icon: '🍙' },
+      { name: 'AnimePahe', url: 'https://animepahe.ru', icon: '🎭' },
+      { name: 'KickAssAnime', url: 'https://kickassanime.mx', icon: '👊' },
+      { name: 'AniWatch TV', url: 'https://aniwatchtv.to', icon: '👁️' },
+      { name: 'AnimeZ', url: 'https://animez.org', icon: '🎬' },
+      { name: 'AnimeGG', url: 'https://animegg.org', icon: '🥚' },
+      { name: 'AnimeStream', url: 'https://animestream.net', icon: '📺' },
+      { name: 'KissAnime', url: 'https://kissanime.com.ru', icon: '💋' },
+      { name: 'AllManga', url: 'https://allmanga.to', icon: '📚' },
+      { name: 'AniWorld', url: 'https://aniworld.to', icon: '🌏' },
+      { name: 'WCOStream', url: 'https://wcostream.tv', icon: '📺' },
+      { name: 'Nyaa', url: 'https://nyaa.land', icon: '🐱' },
+      { name: '123Animes', url: 'https://123animes.ru', icon: '🔢' }
+    ]
+  },
+  {
+    category: 'Manga',
+    sites: [
+      { name: 'MangaPark', url: 'https://mangapark.io', icon: '📖' },
+      { name: 'MangaFire', url: 'https://mangafire.to', icon: '🔥' },
+      { name: 'Comick', url: 'https://comick.io', icon: '📚' },
+      { name: 'Batoto', url: 'https://batotoo.com', icon: '🦇' },
+      { name: 'MangaDex', url: 'https://mangadex.org', icon: '📘' },
+      { name: 'AllManga', url: 'https://allmanga.to', icon: '📑' },
+      { name: 'Mangago', url: 'https://mangago.me', icon: '📝' },
+      { name: 'WeebCentral', url: 'https://weebcentral.com', icon: '🌟' }
+    ]
+  },
+  {
+    category: 'LLMs & Chatbots',
+    sites: [
+      { name: 'ChatGPT (OpenAI)', url: 'https://chat.openai.com', icon: '🤖' },
+      { name: 'Gemini (Google)', url: 'https://gemini.google.com', icon: '✨' },
+      { name: 'Claude (Anthropic)', url: 'https://claude.ai', icon: '🧠' },
+      { name: 'Perplexity AI', url: 'https://www.perplexity.ai', icon: '🔍' },
+      { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com', icon: '💬' },
+      { name: 'Mistral AI', url: 'https://mistral.ai', icon: '🌪️' },
+      { name: 'Llama 3 (Meta)', url: 'https://llama.meta.com', icon: '🦙' },
+      { name: 'Cohere', url: 'https://cohere.com', icon: '🔄' }
+    ]
+  },
+  {
+    category: 'AI Image & Video Generators',
+    sites: [
+      { name: 'MidJourney', url: 'https://www.midjourney.com', icon: '🎨' },
+      { name: 'DALL·E 3', url: 'https://openai.com/dall-e', icon: '🖼️' },
+      { name: 'Stable Diffusion', url: 'https://stablediffusionweb.com', icon: '🌈' },
+      { name: 'Runway ML', url: 'https://runwayml.com', icon: '🎬' },
+      { name: 'Pika Labs', url: 'https://pika.art', icon: '📹' },
+      { name: 'Leonardo AI', url: 'https://leonardo.ai', icon: '🎭' },
+      { name: 'Suno AI', url: 'https://suno.com', icon: '🎵' }
+    ]
+  },
+  {
+    category: 'AI Coding Assistants',
+    sites: [
+      { name: 'GitHub Copilot', url: 'https://github.com/features/copilot', icon: '👨‍💻' },
+      { name: 'Tabnine', url: 'https://www.tabnine.com', icon: '📝' },
+      { name: 'Codeium', url: 'https://codeium.com', icon: '💻' },
+      { name: 'Replit Ghostwriter', url: 'https://replit.com/ai', icon: '👻' },
+      { name: 'Amazon CodeWhisperer', url: 'https://aws.amazon.com/codewhisperer', icon: '📊' }
+    ]
+  },
+  {
+    category: 'AI APIs for Developers',
+    sites: [
+      { name: 'OpenAI API', url: 'https://platform.openai.com', icon: '🔌' },
+      { name: 'Anthropic API', url: 'https://www.anthropic.com/api', icon: '🧩' },
+      { name: 'Hugging Face', url: 'https://huggingface.co', icon: '🤗' },
+      { name: 'Fireworks AI', url: 'https://fireworks.ai', icon: '🎆' },
+      { name: 'Groq API', url: 'https://groq.com', icon: '⚡' }
+    ]
+  },
+  {
+    category: 'AI Voice & Speech Tools',
+    sites: [
+      { name: 'ElevenLabs', url: 'https://elevenlabs.io', icon: '🗣️' },
+      { name: 'Murf AI', url: 'https://murf.ai', icon: '🎤' },
+      { name: 'Descript', url: 'https://www.descript.com', icon: '🎙️' },
+      { name: 'HeyGen', url: 'https://www.heygen.com', icon: '📱' }
+    ]
+  },
+  {
+    category: 'Free AI Tools',
+    sites: [
+      { name: 'DeepSeek Chat (Free)', url: 'https://chat.deepseek.com', icon: '💫' },
+      { name: 'Ollama (Local AI)', url: 'https://ollama.ai', icon: '🖥️' },
+      { name: 'LM Studio', url: 'https://lmstudio.ai', icon: '🧪' },
+      { name: 'Hugging Face Chat', url: 'https://huggingface.co/chat', icon: '💭' }
+    ]
+  },
+  {
+    category: 'AI Search Engines',
+    sites: [
+      { name: 'Perplexity AI', url: 'https://perplexity.ai', icon: '🔎' },
+      { name: 'You.com', url: 'https://you.com', icon: '🌐' },
+      { name: 'Phind', url: 'https://phind.com', icon: '🔍' }
+    ]
+  },
+  {
+    category: 'AI for Productivity',
+    sites: [
+      { name: 'Notion AI', url: 'https://www.notion.so/product/ai', icon: '📓' },
+      { name: 'Grammarly AI', url: 'https://www.grammarly.com', icon: '✏️' },
+      { name: 'Tome AI', url: 'https://tome.app', icon: '📊' }
+    ]
+  },
+  {
+    category: 'AI for Data & Analytics',
+    sites: [
+      { name: 'Pandas AI', url: 'https://github.com/gventuri/pandas-ai', icon: '🐼' },
+      { name: 'Tableau GPT', url: 'https://www.tableau.com', icon: '📈' }
+    ]
+  },
+  {
+    category: 'AI Learning & Courses',
+    sites: [
+      { name: 'DeepLearning.AI', url: 'https://www.deeplearning.ai', icon: '🧠' },
+      { name: 'Fast.ai', url: 'https://www.fast.ai', icon: '🚀' }
+    ]
+  },
+  {
+    category: 'Social Media',
+    sites: [
+      { name: 'Twitter/X', url: 'https://twitter.com', icon: '🐦' },
+      { name: 'Instagram', url: 'https://instagram.com', icon: '📷' },
+      { name: 'Facebook', url: 'https://facebook.com', icon: '👥' },
+      { name: 'LinkedIn', url: 'https://linkedin.com', icon: '💼' },
+      { name: 'Reddit', url: 'https://reddit.com', icon: '🔴' }
+    ]
+  },
+  {
+    category: 'Productivity',
+    sites: [
+      { name: 'Gmail', url: 'https://mail.google.com', icon: '📧' },
+      { name: 'Google Drive', url: 'https://drive.google.com', icon: '📁' },
+      { name: 'Notion', url: 'https://notion.so', icon: '📝' },
+      { name: 'Trello', url: 'https://trello.com', icon: '📋' },
+      { name: 'Slack', url: 'https://slack.com', icon: '💬' }
+    ]
+  },
+  {
+    category: 'Development',
+    sites: [
+      { name: 'GitHub', url: 'https://github.com', icon: '💻' },
+      { name: 'Stack Overflow', url: 'https://stackoverflow.com', icon: '❓' },
+      { name: 'CodePen', url: 'https://codepen.io', icon: '🖊️' },
+      { name: 'MDN Web Docs', url: 'https://developer.mozilla.org', icon: '📚' },
+      { name: 'VS Code', url: 'https://vscode.dev', icon: '📝' }
+    ]
+  },
+  {
+    category: 'Note-taking Apps (All-in-One)',
+    sites: [
+      { name: 'Notion', url: 'https://www.notion.so', icon: '📓' },
+      { name: 'Coda', url: 'https://coda.io', icon: '📊' },
+      { name: 'ClickUp', url: 'https://clickup.com', icon: '✅' }
+    ]
+  },
+  {
+    category: 'Markdown & Developer-Friendly Notes',
+    sites: [
+      { name: 'Obsidian', url: 'https://obsidian.md', icon: '🔮' },
+      { name: 'Logseq', url: 'https://logseq.com', icon: '🧠' },
+      { name: 'Typora', url: 'https://typora.io', icon: '📝' }
+    ]
+  },
+  {
+    category: 'Simple & Lightweight Notes',
+    sites: [
+      { name: 'Evernote', url: 'https://evernote.com', icon: '🐘' },
+      { name: 'Bear', url: 'https://bear.app', icon: '🐻' },
+      { name: 'Simplenote', url: 'https://simplenote.com', icon: '✏️' }
+    ]
+  },
+  {
+    category: 'Open-Source & Privacy-Focused Notes',
+    sites: [
+      { name: 'Joplin', url: 'https://joplinapp.org', icon: '🔒' },
+      { name: 'Standard Notes', url: 'https://standardnotes.com', icon: '🛡️' },
+      { name: 'Zettlr', url: 'https://www.zettlr.com', icon: '📄' }
+    ]
+  },
+  {
+    category: 'Specialized Note-taking Tools',
+    sites: [
+      { name: 'Roam Research', url: 'https://roamresearch.com', icon: '🔄' },
+      { name: 'Tana', url: 'https://tana.inc', icon: '🌱' },
+      { name: 'Mem', url: 'https://mem.ai', icon: '🧩' }
+    ]
+  },
+  {
+    category: 'Offline/Desktop Note-taking',
+    sites: [
+      { name: 'OneNote', url: 'https://www.onenote.com', icon: '📔' },
+      { name: 'Apple Notes', url: 'https://www.apple.com/notes', icon: '🍏' },
+      { name: 'QOwnNotes', url: 'https://www.qownnotes.org', icon: '📋' }
+    ]
+  }
+];
+
+const Dashboard = () => {
+  const { user, logout, favorites, recentlyUsed, trackSiteUsage, toggleFavorite, isFavorite } = useContext(UserContextData);
+  const [activeCategory, setActiveCategory] = useState(null);
+  
+  // Create refs for section scrolling
+  const sectionRefs = useRef({});
+  
+  // Initialize refs for each category
+  useEffect(() => {
+    // Add Favorites and Recently Used sections
+    sectionRefs.current = {
+      'Favorites': React.createRef(),
+      'Recently Used': React.createRef(),
+    };
+    
+    // Add refs for all website categories
+    popularSites.forEach(category => {
+      sectionRefs.current[category.category] = React.createRef();
+    });
+  }, []);  // Add animation to cards on component mount and when data changes
+  useEffect(() => {
+    // Initial animation with a short delay to ensure DOM is ready
+    const initialTimer = setTimeout(() => {
+      randomizeCardAnimations();
+    }, 100);
+
+    // Handle window focus events to re-apply animations when user returns to tab
+    const handleFocus = () => {
+      setTimeout(() => randomizeCardAnimations(), 100);
+    };
+    
+    window.addEventListener('focus', handleFocus);
+    
+    // Cleanup
+    return () => {
+      clearTimeout(initialTimer);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [favorites, recentlyUsed]);
+
+  const handleSiteClick = (site) => {
+    // Track the site usage
+    trackSiteUsage(site);
+    
+    // Open the site in a new tab
+    window.open(site.url, '_blank');
+  };
+  
+  // Scroll to section when clicked in sidebar
+  const scrollToSection = (category) => {
+    setActiveCategory(category);
+    if (sectionRefs.current[category] && sectionRefs.current[category].current) {
+      sectionRefs.current[category].current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
+  
+  return (
+    <div className="dashboard-layout">
+      {/* Sidebar Navigation */}      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h1 className="sidebar-title">Website Redirector</h1>
+          <div className="user-welcome">
+            <span className="username">Welcome, {user?.username}</span>
+          </div>
+        </div>
+        
+        <nav className="sidebar-nav">
+          <ul className="nav-list">
+            {/* Main Navigation */}
+            <li className="nav-section">Navigation</li>
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                <span className="nav-icon">🏠</span>
+                <span className="nav-label">Home</span>
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <span className="nav-icon">📊</span>
+              <span className="nav-label">Dashboard</span>
+            </li>
+            
+            {/* Add Favorites and Recently Used to Navigation */}
+            <li className="nav-section">User Content</li>
+            <li 
+              className={`nav-item ${activeCategory === 'Favorites' ? 'active' : ''}`}
+              onClick={() => scrollToSection('Favorites')}
+            >
+              <span className="nav-icon">⭐</span>
+              <span className="nav-label">Favorites</span>
+            </li>
+            {recentlyUsed.length > 0 && (
+              <li 
+                className={`nav-item ${activeCategory === 'Recently Used' ? 'active' : ''}`}
+                onClick={() => scrollToSection('Recently Used')}
+              >
+                <span className="nav-icon">🕒</span>
+                <span className="nav-label">Recently Used</span>
+              </li>
+            )}
+            
+            {/* Add Category Navigation */}
+            <li className="nav-section">Categories</li>
+            {popularSites.map((category) => (              <li 
+                key={category.category}
+                className={`nav-item ${activeCategory === category.category ? 'active' : ''}`}
+              >
+                <Link 
+                  to={`/category/${category.category.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="nav-link"
+                >
+                  <span className="nav-icon">{category.icon || category.sites[0]?.icon || '📁'}</span>
+                  <span className="nav-label">{category.category}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        
+        <div className="sidebar-footer">
+          <button
+            onClick={logout}
+            className="logout-btn"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="dashboard-content">      {/* Favorites Section */}
+      <section className="section" ref={sectionRefs.current['Favorites']}>
+        <h2 className="section-title">Favorites</h2>
+        {favorites.length > 0 ? (
+          <div className="sites-grid">
+            {favorites.map((site, index) => (
+              <div 
+                key={`fav-${index}`} 
+                className="site-card"
+                onClick={() => handleSiteClick(site)}
+              >
+                <div className="site-icon">{site.icon}</div>
+                <h3 className="site-name">{site.name}</h3>
+                <button 
+                  className="favorite-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(site);
+                  }}
+                >
+                  <FaHeart />
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="empty-message">No favorites yet. Click the heart icon to add sites to your favorites.</p>
+        )}
+      </section>      {/* Recently Used Section */}
+      {recentlyUsed.length > 0 && (
+        <section className="section" ref={sectionRefs.current['Recently Used']}>
+          <h2 className="section-title">Recently Used</h2>
+          <div className="sites-grid">
+            {recentlyUsed.map((site, index) => (
+              <div 
+                key={`recent-${index}`} 
+                className="site-card"
+                onClick={() => handleSiteClick(site)}
+              >
+                <div className="site-icon">{site.icon}</div>
+                <h3 className="site-name">{site.name}</h3>
+                <button 
+                  className="favorite-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(site);
+                  }}
+                >
+                  {isFavorite(site.url) ? <FaHeart /> : <FaRegHeart />}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}      {/* Popular Sites by Category */}
+      {popularSites.map((category) => (
+        <section 
+          key={category.category} 
+          className="section"
+          ref={sectionRefs.current[category.category]}
+          id={category.category.toLowerCase().replace(/\s+/g, '-')}
+        >
+          <h2 className="section-title">{category.category}</h2>
+          <div className="sites-grid">
+            {category.sites.map((site, index) => (
+              <div 
+                key={`${category.category}-${index}`} 
+                className="site-card"
+                onClick={() => handleSiteClick(site)}
+              >
+                <div className="site-icon">{site.icon}</div>
+                <h3 className="site-name">{site.name}</h3>
+                <button 
+                  className="favorite-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(site);
+                  }}
+                >
+                  {isFavorite(site.url) ? <FaHeart /> : <FaRegHeart />}
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+      </main>
+    </div>
+  );
+};
+
+export default Dashboard;

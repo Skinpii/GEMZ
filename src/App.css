@@ -1,0 +1,130 @@
+/* Reset default margins */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Add padding to account for fixed navbar */
+main, .content {
+  padding-top: 1rem;
+}
+
+/* Content transitions */
+.content {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.content-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Global styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Site cards */
+.site-card {
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #e2e8f0;
+}
+
+/* Category sections */
+.category-section {
+  margin-bottom: 2.5rem;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  color: #2d3748;
+}
+
+/* Favorite button */
+.favorite-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #e53e3e;
+  transition: color 0.2s ease;
+}
+
+.favorite-btn:hover {
+  color: #c53030;
+}
+
+/* Animation for card transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Loading Screen */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-primary);
+}
+
+.loading-screen::after {
+  content: '';
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent);
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms, transform 300ms;
+}

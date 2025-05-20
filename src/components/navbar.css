@@ -1,0 +1,268 @@
+/* Red Theme Navbar CSS */
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: var(--bg-primary, #fff);
+  /* Remove any transform, transition, or animation that slides the navbar */
+  transition: none !important;
+  transform: none !important;
+}
+
+.navbar {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  justify-content: center; /* Center align items */
+  align-items: center;
+  flex-wrap: nowrap;background-color: black;
+  border-radius: 0 0 20px 20px; /* Curved only at the bottom */
+  box-shadow: 0 4px 15px rgba(247, 55, 79, 0.3);
+  width: 100%;
+}
+
+.navbar-brand {
+  font-family: 'Volux', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Add padding to the top of the main content to prevent it from being hidden under the fixed navbar */
+main, .content {
+  padding-top: 80px !important;
+}
+
+.navbar-brand.gemz-hover-area {
+  position: relative;
+  cursor: pointer;
+}
+
+.gemz-text {
+  display: inline-block;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  will-change: opacity, transform;
+}
+.gemz-text.hide {
+  opacity: 0;
+  transform: scale(0.8) translateY(-10px);
+  pointer-events: none;
+}
+
+.navbar-search-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleY(0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  background: #18181b;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  padding: 0.2rem 0.8rem;
+  z-index: 10;
+  min-width: 120px;
+  max-width: 180px;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  border: none; /* Remove border */
+}
+
+.navbar-search-bar.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scaleY(1);
+  pointer-events: auto;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 0.2rem 0;
+  font-family: 'Inter', Arial, sans-serif;
+  border-bottom: none;
+  border-radius: 999px;
+  height: 28px;
+  line-height: 28px;
+  transition: box-shadow 0.2s;
+  box-shadow: none; /* Remove box-shadow */
+}
+
+.search-input:focus {
+  box-shadow: none; /* Remove blue focus ring */
+}
+
+.navbar-toggle-switch {
+  position: absolute;
+  left: calc(50% - 20px); /* Move 20px left from center */
+  transform: translateX(-50%);
+  top: 100%;
+  margin-top: 16px;
+  background: linear-gradient(145deg, #000000, #000000);
+  border-radius: 50px;
+  box-shadow: 
+    0 4px 20px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.05);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  z-index: 200;
+  border: 1px solid rgba(255,255,255,0.05);
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateX(-50%) translateX(80px);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.navbar-toggle-switch.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateX(0);
+}
+
+.navbar-toggle-switch.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateX(80px); /* Move right while fading out */
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,179,71,0.15), rgba(255,179,71,0));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.toggle-btn:hover { 
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.toggle-btn:hover::before {
+  opacity: 1;
+}
+
+.toggle-btn.selected {
+  background: linear-gradient(135deg, #ffb347, #ff7e00);
+  color: #12161b;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(255,179,71,0.3);
+}
+
+.toggle-btn.selected:hover {
+  transform: none;
+  box-shadow: 0 2px 15px rgba(255,179,71,0.4);
+}
+
+/* Navbar bounce animation for JS-triggered effect */
+.navbar-container.navbar-bounce {
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  transform: translateY(-20px);
+}
+
+.navbar-container.navbar-bounce {
+  /* Ensure it returns to normal after the animation */
+  animation: navbarBounceReturn 0.4s forwards;
+}
+
+@keyframes navbarBounceReturn {
+  0% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.2rem 0.2rem;
+  }
+  .navbar-brand {
+    font-size: 0.9rem;
+    margin: 0 0.3rem;
+    letter-spacing: 0.5px;
+  }
+  .nav-item {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.65rem;
+    border-radius: 10px;
+    gap: 0.1rem;
+  }
+  .nav-icon {
+    font-size: 0.85rem;
+  }
+  .navbar-search-bar {
+    min-width: 60px;
+    max-width: 90px;
+    height: 20px;
+    padding: 0.05rem 0.2rem;
+  }
+  .search-input {
+    font-size: 0.6rem;
+    height: 16px;
+    line-height: 16px;
+  }
+  .navbar-toggle-switch {
+    padding: 0.1rem;
+    gap: 0.1rem;
+    left: calc(50% + 7px) !important; /* Move 3px right from center */
+  }
+  .toggle-btn {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.3rem;
+  }
+}
