@@ -13,6 +13,11 @@ const CategoryNavbar = ({ categories, onCategorySelect, loading, searchQuery, se
   // Helper to detect mobile
   const isMobile = () => window.innerWidth <= 600;
 
+  // Filter categories for mobile: only Movies and Anime
+  const filteredCategories = isMobile()
+    ? categories.filter(cat => ['Movies', 'Anime'].includes(cat.category))
+    : categories;
+
   // Mobile: control search/toggle with click on GEMZ
   const handleGemzClick = () => {
     if (isMobile()) {
@@ -94,23 +99,19 @@ const CategoryNavbar = ({ categories, onCategorySelect, loading, searchQuery, se
   return (
     <div className="navbar-container" onMouseLeave={!isMobile() ? handleNavbarMouseLeave : undefined}>
       <div className="navbar">
-        {/* Render categories: mobile = filtered, desktop = all */}
-        {(isMobile() ? categories.filter(cat =>
-            ['Movies & TV', 'Anime', 'Manga', 'Chatbots'].includes(cat.category)
-          ) : categories).slice(0, Math.ceil((isMobile() ? categories.filter(cat =>
-            ['Movies & TV', 'Anime', 'Manga', 'Chatbots'].includes(cat.category)
-          ) : categories).length / 2)).map((category) => (
+        {/* Render categories: mobile = only Movies and Anime, desktop = all */}
+        {filteredCategories.slice(0, Math.ceil(filteredCategories.length / 2)).map((category) => (
           <button
             key={category.category}
             className={`nav-item ${activeCategory === category.category ? 'active' : ''}`}
+            style={isMobile() ? { fontSize: '1.15rem', padding: '0.7rem 1.1rem' } : {}} // Increase text size and padding on mobile
             onClick={() => {
               setActiveCategory(category.category);
               onCategorySelect(category.category, 'click');
             }}
-            // REDIRECTS TO DASHBOARD CATEGORY ON HOVER (FIRST HALF)
             onMouseEnter={() => handleCategoryMouseEnter(category.category)}
           >
-            <span className="nav-icon">{category.sites[0].icon}</span>
+            <span className="nav-icon" style={isMobile() ? { fontSize: '1.3rem' } : {}}>{category.sites[0].icon}</span>
             {category.category}
           </button>
         ))}
@@ -135,6 +136,7 @@ const CategoryNavbar = ({ categories, onCategorySelect, loading, searchQuery, se
           style={{ position: 'relative', minWidth: 0 }}
         >
           <span className={`gemz-text${showSearch ? ' hide' : ''}`}
+            style={isMobile() ? { fontSize: '1.25rem' } : {}} // Increase GEMZ text size on mobile
             onMouseEnter={!isMobile() ? () => {
               if (onSearchHover) onSearchHover();
               const navbar = document.querySelector('.navbar-container');
@@ -165,26 +167,23 @@ const CategoryNavbar = ({ categories, onCategorySelect, loading, searchQuery, se
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               autoFocus={showSearch}
+              style={isMobile() ? { fontSize: '1.1rem' } : {}} // Increase search input size on mobile
             />
           </div>
         </div>
         {/* Second half of the categories */}
-        {(isMobile() ? categories.filter(cat =>
-            ['Movies & TV', 'Anime', 'Manga', 'Chatbots'].includes(cat.category)
-          ) : categories).slice(Math.ceil((isMobile() ? categories.filter(cat =>
-            ['Movies & TV', 'Anime', 'Manga', 'Chatbots'].includes(cat.category)
-          ) : categories).length / 2)).map((category) => (
+        {filteredCategories.slice(Math.ceil(filteredCategories.length / 2)).map((category) => (
           <button
             key={category.category}
             className={`nav-item ${activeCategory === category.category ? 'active' : ''}`}
+            style={isMobile() ? { fontSize: '1.15rem', padding: '0.7rem 1.1rem' } : {}} // Increase text size and padding on mobile
             onClick={() => {
               setActiveCategory(category.category);
               onCategorySelect(category.category, 'click');
             }}
-            // REDIRECTS TO DASHBOARD CATEGORY ON HOVER (SECOND HALF)
             onMouseEnter={() => handleCategoryMouseEnter(category.category)}
           >
-            <span className="nav-icon">{category.sites[0].icon}</span>
+            <span className="nav-icon" style={isMobile() ? { fontSize: '1.3rem' } : {}}>{category.sites[0].icon}</span>
             {category.category}
           </button>
         ))}
