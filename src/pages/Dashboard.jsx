@@ -5,7 +5,7 @@ import './Dashboard.css';
 // Predefined popular websites
 const popularSites = [
   {
-    category: 'Movies & TV',
+    category: 'Movies',
     sites: [
       { name: 'MultiMovies', url: 'https://multimovies.media', icon: '🎞️' },
       { name: 'Soap2Night', url: 'https://soap2night.cc', icon: '🎬' },
@@ -311,9 +311,9 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     'w1.123animes.ru'
   ];
   const getSearchableSites = () => {
-    let allowedCategories = ['Movies & TV', 'Anime', 'Manga'];
+    let allowedCategories = ['Movies', 'Anime', 'Manga'];
     if (selectedType === 'anime') allowedCategories = ['Anime'];
-    if (selectedType === 'movie') allowedCategories = ['Movies & TV'];
+    if (selectedType === 'movie') allowedCategories = ['Movies'];
     let sites = popularSites.filter(cat =>
       allowedCategories.includes(cat.category)
     ).flatMap(cat => cat.sites.map(site => ({ ...site, category: cat.category })));
