@@ -297,6 +297,19 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     'soaper.top',
     'watch32.sx'
   ];
+  const allowedAnimeSites = [
+    'hianimez.to',
+    '9animetv.to',
+    'anitaku.io',
+    'animekai.to',
+    'gogoanime.org.vc',
+    'kaa.mx',
+    'kayoanime.com',
+    'aniwatchtv.to',
+    'animez.org',
+    'animegg.org',
+    'w1.123animes.ru'
+  ];
   const getSearchableSites = () => {
     let allowedCategories = ['Movies & TV', 'Anime', 'Manga'];
     if (selectedType === 'anime') allowedCategories = ['Anime'];
@@ -307,6 +320,10 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     if (selectedType === 'movie' || (searchQuery && selectedType !== 'anime' && selectedType !== 'manga')) {
       // Only show the specified movie sites in the movie result section
       sites = sites.filter(site => allowedMovieSites.some(domain => site.url.includes(domain)));
+    }
+    if (selectedType === 'anime') {
+      // Only show the specified anime sites in the anime result section
+      sites = sites.filter(site => allowedAnimeSites.some(domain => site.url.includes(domain)));
     }
     return sites;
   };
@@ -398,6 +415,61 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
       // multimovies.media uses /?s={query} with + for spaces
       const plusQuery = query.trim().replace(/\s+/g, '+');
       return `${site.url}/?s=${plusQuery}`;
+    }
+    if (site.url.includes('hianimez.to')) {
+      // hianimez.to uses /search?keyword={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/search?keyword=${plusQuery}`;
+    }
+    if (site.url.includes('9animetv.to')) {
+      // 9animetv.to uses /search?keyword={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/search?keyword=${plusQuery}`;
+    }
+    if (site.url.includes('anitaku.io')) {
+      // anitaku.io uses /?s={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/?s=${plusQuery}`;
+    }
+    if (site.url.includes('animekai.to')) {
+      // animekai.to uses /browser?keyword={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/browser?keyword=${plusQuery}`;
+    }
+    if (site.url.includes('gogoanime.org.vc')) {
+      // gogoanime.org.vc uses /?s={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/?s=${plusQuery}`;
+    }
+    if (site.url.includes('kaa.mx')) {
+      // kaa.mx uses /search?q={query} with %20 for spaces (standard URL encoding)
+      const encodedQuery = encodeURIComponent(query.trim());
+      return `${site.url}/search?q=${encodedQuery}`;
+    }
+    if (site.url.includes('kayoanime.com')) {
+      // kayoanime.com uses /?s={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/?s=${plusQuery}`;
+    }
+    if (site.url.includes('aniwatchtv.to')) {
+      // aniwatchtv.to uses /search?keyword={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/search?keyword=${plusQuery}`;
+    }
+    if (site.url.includes('animez.org')) {
+      // animez.org uses /?act=search&f[status]=all&f[sortby]=lastest-chap&f[keyword]={query} with %20 for spaces
+      const encodedQuery = encodeURIComponent(query.trim());
+      return `${site.url}/?act=search&f[status]=all&f[sortby]=lastest-chap&f[keyword]=${encodedQuery}`;
+    }
+    if (site.url.includes('animegg.org')) {
+      // animegg.org uses /search/?q={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/search/?q=${plusQuery}`;
+    }
+    if (site.url.includes('w1.123animes.ru')) {
+      // w1.123animes.ru uses /search?keyword={query} with + for spaces
+      const plusQuery = query.trim().replace(/\s+/g, '+');
+      return `${site.url}/search?keyword=${plusQuery}`;
     }
     // Default: Google site search
     return `https://www.google.com/search?q=site:${site.url}+${q}`;
