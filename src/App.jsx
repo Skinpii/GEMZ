@@ -19,7 +19,7 @@ const App = () => {
 
   // Define categories based on the Dashboard's popularSites structure
   const categories = [
-    { category: 'Movies & TV', sites: [{ icon: '' }] },
+    { category: 'Movies', sites: [{ icon: '' }] },
     { category: 'Anime', sites: [{ icon: '' }] },
     { category: 'Manga', sites: [{ icon: '' }] },
     { category: 'Chatbots', sites: [{ icon: '' }] },  
