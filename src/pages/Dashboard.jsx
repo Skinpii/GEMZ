@@ -303,8 +303,32 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
 
   // Helper: build search URL for each site
   const getSiteSearchUrl = (site, query) => {
-    // Always use Google site search for all sites
-    return `https://www.google.com/search?q=site:${site.url}+${encodeURIComponent(query)}`;
+    const q = encodeURIComponent(query);
+    // Custom search URL for specific sites
+    if (site.url.includes('myflixerz.to')) {
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('gomovies.sx')) {
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('theflixertv.to')) {
+      return `${site.url}/search/${q}`;
+    }
+    if (site.url.includes('soap2dayhdz.com')) {
+      // Example: https://soap2dayhdz.com/film/oblivion-2234/
+      // We'll use the first word as the slug, fallback to query if not possible
+      // This is a guess, as the real slug may require more logic or scraping
+      return `${site.url}/film/${q}`;
+    }
+    if (site.url.includes('lookmovie2.to')) {
+      // Example: https://www.lookmovie2.to/movies/view/looper-2012
+      // We'll use the first word as the slug, fallback to query if not possible
+      return `${site.url}/movies/view/${q}`;
+    }
+    // Add more custom site search logic here if needed
+
+    // Default: Google site search
+    return `https://www.google.com/search?q=site:${site.url}+${q}`;
   };
 
   return (
@@ -377,3 +401,4 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
 };
 
 export default Dashboard;
+
