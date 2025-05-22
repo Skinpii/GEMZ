@@ -45,7 +45,7 @@ const SplashScreen = ({ onComplete }) => {
           <div className="splash-dot"></div>
         </div>
         <p className={`splash-tagline ${taglineVisible ? 'show' : ''}`}>
-          Your personal web directory
+          The Ultimate Freebeee
         </p>
       </div>
     </div>

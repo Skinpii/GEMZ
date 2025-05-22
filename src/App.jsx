@@ -7,6 +7,7 @@ import './components/navbar.css'
 import './App.css'
 import { UserContextData } from './context/userContext.jsx'
 import { delay } from './utils/animationHelper.js'
+import ScrollToTopButton from './components/ScrollToTopButton'
 
 const App = () => {
   const { loading } = useContext(UserContextData);
@@ -14,17 +15,18 @@ const App = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [contentReady, setContentReady] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('all'); // Added state for selectedType
+  const [selectedType, setSelectedType] = useState('movie'); // Default to movie to match toggle position
   const [dashboardScrollSignal, setDashboardScrollSignal] = useState(0);
 
   // Define categories based on the Dashboard's popularSites structure
   const categories = [
-    { category: 'Movies & TV', sites: [{ icon: '' }] },
+    { category: 'Movies', sites: [{ icon: '' }] },
     { category: 'Anime', sites: [{ icon: '' }] },
     { category: 'Manga', sites: [{ icon: '' }] },
     { category: 'Chatbots', sites: [{ icon: '' }] },  
-    { category: 'AI Assistants', sites: [{ icon: '' }] },
-    { category: 'Notes Apps', sites: [{ icon: '' }] }
+        { category: 'Notes Apps', sites: [{ icon: '' }] },
+    { category: 'AI', sites: [{ icon: '' }] },
+
   ];
   
   useEffect(() => {
@@ -73,6 +75,7 @@ const App = () => {
               scrollToTopSignal={dashboardScrollSignal}
             />
           </main>
+          <ScrollToTopButton />
         </>
       )}
     </>
