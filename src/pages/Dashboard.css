@@ -262,8 +262,8 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 900px) {
   .sites-list {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr); /* Changed from 1fr to display 2 categories per row */
+    gap: 1.5rem; /* Adjusted gap from 2rem for the 2-column layout */
   }
   
   .results-grid {
@@ -273,17 +273,53 @@ body {
 
 @media (max-width: 700px) {
   .dashboard-container {
-    padding: 1.2rem 0.5rem;
+    padding: 4rem  1rem; /* Increased top padding from 1.2rem to 4rem */
   }
   .site-list-item {
     padding: 0.85rem 0.7rem;
+    font-size: 14px; /* Added to make text smaller */
   }
   .site-category-title {
     font-size: 1.05rem;
   }
-  
+
   .results-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 0.75rem;
+  }
+
+  /* Make result buttons smaller on mobile */
+  .result-button {
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .button_top {
+    padding: 0.6em 1.2em; /* Adjust padding */
+  }
+}
+
+/* Additional media query for very small screens */
+@media (max-width: 480px) {
+  .site-list-item {
+    padding: 0.6rem 0.5rem; /* Further reduce padding */
+    font-size: 12px; /* Further reduce font size */
+  }
+
+  .neobrut-link-btn, button {
+    padding: 10px 15px; /* Adjust button padding */
+    font-size: 12px; /* Adjust button font size */
+  }
+
+  .result-button {
+    font-size: 12px; /* Further adjust font size */
+  }
+
+  .button_top {
+    padding: 0.5em 1em; /* Further adjust padding */
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller columns */
+    gap: 0.5rem; /* Smaller gap */
   }
 }
