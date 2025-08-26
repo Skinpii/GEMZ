@@ -277,7 +277,7 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
 
   // List of allowed movie site domains for search
   const allowedMovieSites = [
-    'multimovies.media',
+    'multimovies.pro',
     'myflixerz.to',
     'gomovies.sx',
     'theflixertv.to',
@@ -380,7 +380,7 @@ const Dashboard = ({ selectedCategory, searchQuery, selectedType, scrollToTopSig
     if (site.url.toLowerCase().includes('watchseries.pe')) return `${baseSiteUrl}/search/${q}`;
     if (site.url.toLowerCase().includes('soaper.top')) return `${baseSiteUrl}/search.html?keyword=${q}`;
     if (site.url.toLowerCase().includes('watch32.sx')) return `${baseSiteUrl}/search/${q}`;
-    if (site.url.toLowerCase().includes('multimovies.media')) {
+    if (site.url.toLowerCase().includes('multimovies.pro')) {
       const plusQuery = query.trim().replace(/\s+/g, '+');
       return `${baseSiteUrl}/?s=${plusQuery}`;
     }
