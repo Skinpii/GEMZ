@@ -7,7 +7,7 @@ const popularSites = [
   {
     category: 'Movies',
     sites: [
-      { name: 'Multimovies', url: 'https://multimovies.media', icon: '🎬' } ,
+      { name: 'Multimovies', url: 'https://multimovies.pro', icon: '🎬' } ,
       { name: 'WMovies', url: 'https://wmovies.xyz', icon: '🎥' },
       { name: 'Goojara', url: 'https://goojara.to', icon: '🍿' },
       { name: 'MyFlixerz', url: 'https://myflixerz.to', icon: '📺' },
